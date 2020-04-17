@@ -1,0 +1,11 @@
+<% if @item.merchant.id == current_user.merchant_id %>
+
+  <h1>Edit <%=link_to @item.name, "/items/#{@item.id}" %></h1>
+
+<%= render partial: "shared/item_form", locals: { path: "/items/#{@item.id}",
+                                      method: :patch,
+                                      button_name: "Update Item",
+                                      item: @item } %>
+<% else %>
+  <%= render file: "/public/404" %>
+<% end %>

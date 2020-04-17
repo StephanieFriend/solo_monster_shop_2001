@@ -1,0 +1,49 @@
+<% if @merchant %>
+  <h1><%= link_to @merchant.name, "/merchants/#{@merchant.id}"%><span> Items</span></h1>
+
+  <% if !current_user.nil? && current_user.merchant_id == @merchant.id %>
+    <p align="center"><%= link_to "Add New Item", "/merchant/items/new" %></p>
+  <% elsif current_admin? %>
+    <p align="center"><%= link_to "Add New Item", "/merchants/#{@merchant.id}/items/new" %></p>
+  <% end %>
+
+<% else %>
+  <h1>All Items</h1>
+<% end %>
+<section class="grid-container">
+  <% @items.each do |item| %>
+    <% if item.active? && !current_merchant? && !current_admin? %>
+      <section class = "grid-item" id= 'item-<%=item.id%>'>
+      <h2> <%=link_to item.name, "/items/#{item.id}" %> </h2>
+      <p>Sold by: <%=link_to item.merchant.name, "/merchants/#{item.merchant.id}" %></p>
+      <%= link_to image_tag(item.image), "/items/#{item.id}", id: "img-#{item.id}" %>
+      <p> <%= item.description%> </p>
+      <p>Price: <%=number_to_currency(item.price) %> </p>
+      <p>Inventory: <%= item.inventory %> </p>
+      </section>
+
+  <% elsif current_merchant? || current_admin?%>
+      <section class = "grid-item" id= 'item-<%=item.id%>'>
+      <h2> <%=link_to item.name, "/items/#{item.id}" %> </h2>
+        <p>Sold by: <%=link_to item.merchant.name, "/merchants/#{item.merchant.id}" %></p>
+        <%= link_to image_tag(item.image), "/items/#{item.id}", id: "img-#{item.id}" %>
+        <p> <%= item.description%> </p>
+        <p>Price: <%=number_to_currency(item.price) %> </p>
+        <p>Inventory: <%= item.inventory %> </p>
+        <% if item.merchant_id == current_user.merchant_id %>
+          <% if item.active? %>
+            <p>Active</p>
+            <%= link_to "Deactivate", "/merchant/items/#{item.id}/status?activate_or_deactivate=deactivate", method: :patch %>
+          <% else %>
+            <p>Inactive</p>
+            <%= link_to "Activate", "/merchant/items/#{item.id}/status?activate_or_deactivate=activate", method: :patch %>
+          <% end %>
+          <% if item.item_orders == [] %>
+            <%= link_to "Delete", "/merchant/items/#{item.id}", method: :delete %>
+          <% end %>
+          <%= link_to "Edit this Item", "/merchant/items/#{item.id}/edit"%>
+       <% end %>
+      </section>
+  <% end %>
+<% end %>
+</section>

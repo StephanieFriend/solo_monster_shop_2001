@@ -1,0 +1,13 @@
+<h1 align= "center">Edit Password</h1>
+<center>
+  <%= form_for @user, :url => :password, method: :patch do |f| %>
+
+    <%= f.label :password %>
+    <%= f.password_field :password, id:"password" %>
+
+    <%= f.label :confirm_password %>
+    <%= f.password_field :password_confirmation, id:"password_confirmation" %>
+
+    <%= submit_tag 'Submit' %>
+  <% end %>
+</center>

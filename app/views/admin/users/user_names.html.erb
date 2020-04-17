@@ -1,0 +1,22 @@
+<h1>All Users</h1>
+
+<table>
+  <tr>
+    <th>User Name</th>
+    <th>Created At</th>
+    <th>Role</th>
+    <th>Active?</th>
+  </tr>
+  <% @users.each do |user| %>
+    <tr id='user-<%= user.id%>'>
+      <td><p><%= link_to user.name, "/admin/users/#{user.id}" %></p></td>
+      <td><p><%= user.created_at %></p></td>
+      <td><p><%= user.role %></p><td>
+      <% if user.active? %>
+        <p><%= button_to "disable", "/admin/users/#{user.id}/disable", method: :patch %></p>
+      <% else %>
+        <p><%= button_to "enable", "/admin/users/#{user.id}/enable", method: :patch %></p>
+     <% end %>
+    </tr>
+  <% end %>
+</table>

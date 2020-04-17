@@ -1,0 +1,20 @@
+<%= render "shared/merchant_items_index" %>
+
+<% if @merchant.nil?%>
+  <% if ItemOrder.all != [] %>
+    <section class="merchant-stats">
+      <h3>Most Popular</h3>
+      <ul class="most-popular">
+        <% Item.most_popular_items.each do |item| %>
+          <li><%= item %></li>
+        <% end  %>
+      </ul>
+      <h3>Least Popular</h3>
+      <ul class="least-popular">
+        <% Item.least_popular_items.each do |item| %>
+          <li><%= item %></li>
+        <% end  %>
+      </ul>
+    </section>
+  <% end %>
+<% end %>

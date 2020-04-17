@@ -1,0 +1,22 @@
+<%= @order.name %>
+<%= @order.address %>
+<%= @order.city %>
+<%= @order.state %>
+<%= @order.zip %>
+
+<% @merchant_items.each do |item| %>
+<section id = "<%= item.name %>">
+  <%= link_to "#{item.name}", "/items/#{item.id}" %>
+  <img src= <%= item.image %>>
+  <p>Price: <%= item.price %></p>
+  <% item_order = item.item_orders.where("item_orders.order_id =?", @order.id).first %>
+  <p>Quantity: <%= item_order.quantity %></p>
+  <% if item_order.fulfilled? %>
+    <p>Status: Fulfilled</p>
+  <% elsif !item_order.fulfilled? && item_order.quantity <= item.inventory %>
+    <%= link_to "Fulfill", "/merchant/items/#{@order.id}/#{item.id}/fulfillment", method: :patch %>
+  <% else %>
+    <p>Not enough inventory to fulfill <%=item.name%> </p>
+  <% end %>
+  </section>
+<% end %>

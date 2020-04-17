@@ -1,0 +1,11 @@
+<% if current_admin? || (@merchant.id == current_user.merchant_id) %>
+
+  <h1>Create New Item For <%=link_to @merchant.name, "/merchants/#{@merchant.id}" %></h1>
+
+<%= render partial: "shared/item_form", locals: { path: "/merchants/#{@merchant.id}/items",
+                                      method: :post,
+                                      button_name: "Create Item",
+                                      item: Item.new} %>
+<% else %>
+  <%= render file: "/public/404" %>
+<% end %>

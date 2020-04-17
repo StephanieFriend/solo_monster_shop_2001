@@ -1,0 +1,6 @@
+<h1>Create New Item For <%=link_to @merchant.name, "/merchants/#{@merchant.id}" %></h1>
+
+<%= render partial: "shared/item_form", locals: { path: "/merchant/items",
+                                      method: :post,
+                                      button_name: "Create Item",
+                                      item: Item.new} %>

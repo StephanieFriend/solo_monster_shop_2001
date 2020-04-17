@@ -1,0 +1,31 @@
+<h1 align= "center">Register</h1>
+<center>
+  <%= form_for @user, :url => '/register', method: :post do |f| %>
+
+    <%= f.label :name %>
+    <%= f.text_field :name, id:"name" %>
+
+    <%= f.label :user_address %>
+    <%= f.text_field :street_address, id:"street_address" %>
+
+    <%= f.label :city %>
+    <%= f.text_field :city, id:"city" %>
+
+    <%= f.label :state %>
+    <%= f.text_field :state, id:"state" %>
+
+    <%= f.label :zip_code %>
+    <%= f.text_field :zip_code, id:"zip_code" %>
+
+    <%= f.label :email_address %>
+    <%= f.text_field :email_address, :value => "", id:"email_address" %>
+
+    <%= f.label :password %>
+    <%= f.password_field :password, id:"password" %>
+
+    <%= f.label :confirm_password %>
+    <%= f.password_field :password_confirmation, id:"password_confirmation" %>
+
+    <%= submit_tag 'Submit' %>
+  <% end %>
+</center>

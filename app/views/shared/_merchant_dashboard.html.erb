@@ -1,0 +1,22 @@
+<h1><%="Logged in as #{current_user.name}"%></h1>
+<%= @merchant.name %>
+<%= @merchant.address %>
+<%= @merchant.city %>
+<%= @merchant.state %>
+<%= @merchant.zip %>
+
+<h2>My Orders</h2>
+<% @merchant.pending_orders.each do |order| %>
+<div id=<%=order.id%>>
+  <ul>
+    <li><%=link_to "Order ##{order.id}", "/merchant/orders/#{order.id}"%></li>
+    <li>Created at: <%=order.created_at%></li>
+    <li>Total Number of Items in the Order: <%=order.items.where("items.merchant_id =?", @merchant.id).sum(:quantity)%></li>
+    <li>Total Value of Items in the Order: $<%=order.items.where("items.merchant_id =?", @merchant.id).sum('items.price * quantity')%></li>
+  </ul>
+<%end%>
+</div>
+
+<% if !current_admin? %>
+  <%= link_to "View My Items", "/merchant/#{@merchant.id}/items"%>
+<% end %>

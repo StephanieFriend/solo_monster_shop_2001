@@ -1,0 +1,20 @@
+<center>
+  <%= form_for @item, :url => path, method: method do |f|%>
+    <%= f.label :name %>
+    <%= f.text_field :name, id:"name"%>
+
+    <%= f.label :description %>
+    <%= f.text_field :description, id:"description" %>
+
+    <%= f.label :price %>
+    <%= f.text_field :price, id:"price" %>
+
+    <%= f.label :image %>
+    <%= f.text_field :image, id:"image" %>
+
+    <%= f.label :inventory %>
+    <%= f.text_field :inventory, id:"inventory" %>
+
+    <%= submit_tag button_name %>
+  <% end %>
+</center>

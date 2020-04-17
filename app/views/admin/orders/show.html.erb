@@ -1,0 +1,31 @@
+<h1> Order #<%= @order.id %> Information </h1>
+<p> Created on: <%= @order.created_at %> | Last Updated: <%=@order.updated_at %> | Order Status: <%= @order.status %></p>
+<% if @order.status == "Pending" %>
+  <%= link_to "Cancel Order", "/orders/#{@order.id}", method: :delete%>
+<% end %>
+<h3 align = "center">Order Items</h3>
+<center>
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Image</th>
+      <th>Quantity</th>
+      <th>Price</th>
+      <th>Subtotal</th>
+    </tr>
+  <% @order.items.each do |item|%>
+    <tr>
+    <section id = "<%=item.id%>">
+        <td><p><%=item.name%></p></td>
+        <td><p><%=item.description%></p></td>
+        <td><img src= "<%= item.image%>"> </td>
+        <td><p><%= quantity = item.item_orders.where("item_orders.order_id =?", @order.id).sum(:quantity)%></p></td>
+        <td><p>$<%= item.price%> </p></td>
+        <td><p>$<%=item.price * quantity %> </p></td>
+      </section>
+    </tr>
+  <% end %>
+</table>
+<p> Total Quantity: <%= @order.item_orders.sum(:quantity) %></p>
+<p> Grand Total: $<%= @order.grandtotal %> </p>

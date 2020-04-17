@@ -1,0 +1,6 @@
+<h1>Edit <%=link_to @item.name, "/items/#{@item.id}" %></h1>
+
+<%= render partial: "shared/item_form", locals: { path: "/merchant/items/#{@item.id}",
+                                      method: :patch,
+                                      button_name: "Update Item",
+                                      item: @item} %>

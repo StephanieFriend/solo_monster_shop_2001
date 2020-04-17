@@ -1,0 +1,12 @@
+<h1>Logged in as <%=@user.name%></h1>
+<% if @user.has_orders? %>
+<%= link_to "My Orders", "/user/profile/orders" %>
+<% end %>
+
+<h3>Profile Information</h3>
+
+<section>
+  <%= render "shared/user_profile" %>
+  <%= link_to "Edit Profile Info", "/user/profile/edit" %>
+  <%= link_to "Edit Password", edit_password_path %>
+</section>

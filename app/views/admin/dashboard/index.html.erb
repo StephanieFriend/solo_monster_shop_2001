@@ -1,0 +1,30 @@
+<h1><%="Logged in as #{current_user.name}"%></h1>
+
+<table>
+  <tr>
+    <th>User Name</th>
+    <th>Order Id</th>
+    <th>Created At</th>
+    <th>Status</th>
+    <th>Ship Order</th>
+  </tr>
+  <% @orders.each do |order| %>
+    <tr id='order-<%= order.id%>'>
+      <td><p><%= link_to order.user.name, "/admin/users/#{order.user.id}" %></p></td>
+      <td><p><%= link_to order.id, "/admin/users/#{order.user.id}/orders/#{order.id}" %></p></td>
+      <td><p><%= order.created_at %></p></td>
+      <td><p><%= order.status %></p><td>
+
+        <% if order.status == "Packaged" %>
+          <p><%= button_to "Ship", "/orders/#{order.id}", method: :patch %></p>
+        <% elsif order.status == "Shipped" %>
+          <p>Shipped!</p>
+        <% elsif order.status == "Pending" %>
+          <p>Waiting on Merchant to Fulfill</p>
+        <% else %>
+          <p> Order Cannot Be Shipped</p>
+        <% end %>
+
+    </tr>
+  <% end %>
+</table>
