@@ -1,0 +1,18 @@
+<h1>Bulk Discount Rates</h1>
+
+<h2>Active Rates</h2>
+
+<% @merchant.bulk_discounts.each do |discount| %>
+  <section id='discount-<%=discount.id%>'>
+  <p>
+    Percentage Off: <%= discount.percentage %> </br>
+    Item Quantity: <%= discount.quantity %>
+  </p>
+  <%= link_to 'Edit Bulk Discount', "/merchant/#{@merchant.id}/bulk_discounts/#{discount.id}/edit" %>
+  </br>
+  <%= link_to 'Delete Bulk Discount', "/merchant/#{@merchant.id}/bulk_discounts/#{discount.id}", method: :delete %>
+  </br></br>
+  </section>
+<% end %>
+</br>
+<%= link_to "Add A Bulk Rate", "/merchant/#{@merchant.id}/bulk_discounts/new" %>

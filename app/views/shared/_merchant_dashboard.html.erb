@@ -18,5 +18,6 @@
 </div>
 
 <% if !current_admin? %>
-  <%= link_to "View My Items", "/merchant/#{@merchant.id}/items"%>
+  <%= link_to "View My Items", "/merchant/#{@merchant.id}/items"%> </br></br>
+  <%= link_to "Update Bulk Discount Rates", "/merchant/#{@merchant.id}/bulk_discounts" %>
 <% end %>

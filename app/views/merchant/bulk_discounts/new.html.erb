@@ -1,0 +1,13 @@
+<h1>Create Bulk Rate</h1>
+
+<center>
+  <%= form_for @bulk_discount, :url => "/merchant/#{@merchant.id}/bulk_discounts", method: :post do |f|%>
+    <%= f.label :percentage_off %>
+    <%= f.text_field :percentage, id:"percentage"%>
+
+    <%= f.label :amount_of_items %>
+    <%= f.text_field :quantity, id:"quantity" %>
+
+    <%= submit_tag 'Submit Discount Rate' %>
+  <% end %>
+</center>
