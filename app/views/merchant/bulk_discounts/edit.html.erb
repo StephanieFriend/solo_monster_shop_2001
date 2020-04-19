@@ -1,0 +1,13 @@
+<h1>Edit Bulk Rate</h1>
+
+<center>
+  <%= form_for @bulk_discount, :url => "/merchant/#{@merchant.id}/bulk_discounts/#{@bulk_discount.id}", method: :patch do |f|%>
+    <%= f.label :percentage_off %>
+    <%= f.number_field :percentage, id:"percentage"%>
+
+    <%= f.label :amount_of_items %>
+    <%= f.number_field :quantity, id:"quantity" %>
+
+    <%= submit_tag 'Update Discount Rate' %>
+  <% end %>
+</center>
