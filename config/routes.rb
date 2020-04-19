@@ -50,6 +50,7 @@ Rails.application.routes.draw do
 
     get '/', to: "dashboard#index"
     get '/orders/:id', to: "dashboard#show"
+
     get '/:merchant_id/items', to: "items#index"
     get '/items/new', to: "items#new"
     get '/items/:item_id/edit', to: "items#edit"
@@ -60,6 +61,13 @@ Rails.application.routes.draw do
     patch '/items/:item_id', to: "items#update"
 
     delete '/items/:item_id', to: "items#destroy"
+
+    get '/:merchant_id/bulk_discounts', to: 'bulk_discounts#index'
+    get '/:merchant_id/bulk_discounts/new', to: 'bulk_discounts#new'
+    post '/:merchant_id/bulk_discounts', to: 'bulk_discounts#create'
+    get '/:merchant_id/bulk_discounts/:bulk_discount_id/edit', to: 'bulk_discounts#edit'
+    patch '/:merchant_id/bulk_discounts/:bulk_discount_id', to: 'bulk_discounts#update'
+    delete '/:merchant_id/bulk_discounts/:bulk_discount_id', to: 'bulk_discounts#destroy'
   end
 
   get '/login', to: 'sessions#new'
