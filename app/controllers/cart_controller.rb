@@ -54,5 +54,4 @@ private
   def require_not_admin
     render file: "/public/404" if current_admin?
   end
-
 end
