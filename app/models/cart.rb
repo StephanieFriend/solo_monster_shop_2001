@@ -22,7 +22,31 @@ class Cart
     item_quantity
   end
 
+  def discount_item
+    discounts = []
+    items.each do |item, quantity|
+      BulkDiscount.all.each do |discount|
+        if discount.merchant_id == item.merchant_id
+          discounts << discount
+        end
+      end
+    end
+    discounts
+  end
+
   def subtotal(item)
+    @contents.each do |item_id, quantity|
+      discount_item.each do |discount|
+        if item_id == item.id.to_s
+          if discount.quantity <= quantity
+            d = discount_item.select {|dis| dis.quantity <= quantity}.max_by {|dis| dis.quantity}
+            new_discounted_price = (d.percentage.to_f / 100) * (item.price * @contents[item.id.to_s])
+            new_subtotal = (item.price * @contents[item.id.to_s]) - new_discounted_price
+            return new_subtotal
+          end
+        end
+      end
+    end
     item.price * @contents[item.id.to_s]
   end
 

@@ -28,6 +28,10 @@ class CartController < ApplicationController
       if item.id.to_s == item_id
         if quantity < item.inventory
           cart.contents[item_id] += 1
+          # if !cart.discount_item.nil? && (quantity >= cart.discount_item)
+          #   cart.apply_discount(item)
+          #   flash[:notice] = "You have a new lower price!"
+          # end
         else
           flash[:inventory_notice] = "There's not enough of this item in stock, please choose another."
         end
@@ -44,6 +48,7 @@ class CartController < ApplicationController
           remove_item
         else
           cart.contents[item_id] -= 1
+          # cart.remove_discount(item)
           redirect_to '/cart'
         end
       end
