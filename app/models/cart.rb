@@ -37,7 +37,7 @@ class Cart
   def subtotal(item)
     @contents.each do |item_id, quantity|
       discount_item.each do |discount|
-        if item_id == item.id.to_s
+        if item_id == item.id.to_s && discount.merchant_id == item.merchant_id
           if discount.quantity <= quantity
             d = discount_item.select {|dis| dis.quantity <= quantity}.max_by {|dis| dis.quantity}
             new_discounted_price = (d.percentage.to_f / 100) * (item.price * @contents[item.id.to_s])
