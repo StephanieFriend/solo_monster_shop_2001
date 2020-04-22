@@ -52,9 +52,7 @@ RSpec.describe 'As a user' do
       fill_in :email_address, with: @regina.email_address
       fill_in :password, with: @regina.password
       click_button 'Log in'
-    end
 
-    it 'When I reach a certain item quantity in my cart I receive a discount on that item' do
       visit "/items/#{@tire.id}"
       click_button "Add To Cart"
 
@@ -66,6 +64,11 @@ RSpec.describe 'As a user' do
         click_button "+"
         click_button "+"
         click_button "+"
+      end
+    end
+
+    it 'When I reach a certain item quantity in my cart I receive a discount on that item' do
+      within "#cart-item-#{@tire.id}" do
         expect(page).to have_content(6)
         expect(page).to have_content("$#{6 * @tire.price}")
         click_button "+"
@@ -75,17 +78,7 @@ RSpec.describe 'As a user' do
     end
 
     it 'When I decrease my item quantity under the discount qualifications the price goes back to the original price' do
-      visit "/items/#{@tire.id}"
-      click_button "Add To Cart"
-
-      visit '/cart'
-
       within "#cart-item-#{@tire.id}" do
-        click_button "+"
-        click_button "+"
-        click_button "+"
-        click_button "+"
-        click_button "+"
         expect(page).to have_content(6)
         expect(page).to have_content("$#{6 * @tire.price}")
         click_button "+"
@@ -98,17 +91,7 @@ RSpec.describe 'As a user' do
     end
 
     it 'When I increase one item to qualify for a discount it does not apply to another item' do
-      visit "/items/#{@tire.id}"
-      click_button "Add To Cart"
-
-      visit '/cart'
-
       within "#cart-item-#{@tire.id}" do
-        click_button "+"
-        click_button "+"
-        click_button "+"
-        click_button "+"
-        click_button "+"
         expect(page).to have_content(6)
         expect(page).to have_content("$#{6 * @tire.price}")
         click_button "+"
@@ -127,17 +110,7 @@ RSpec.describe 'As a user' do
     end
 
     it 'When I qualify for two discounts it takes the larger of the two' do
-      visit "/items/#{@tire.id}"
-      click_button "Add To Cart"
-
-      visit '/cart'
-
       within "#cart-item-#{@tire.id}" do
-        click_button "+"
-        click_button "+"
-        click_button "+"
-        click_button "+"
-        click_button "+"
         expect(page).to have_content(6)
         expect(page).to have_content("$#{6 * @tire.price}")
         click_button "+"
