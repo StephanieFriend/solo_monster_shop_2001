@@ -24,7 +24,7 @@ class Merchant::ItemsController < Merchant::BaseController
   end
 
   def edit
-    @item = Item.find(params[:item_id])
+    @item = Item.find(params[:id])
   end
 
   def status
@@ -40,7 +40,7 @@ class Merchant::ItemsController < Merchant::BaseController
   end
 
   def update
-    @item = Item.find(params[:item_id])
+    @item = Item.find(params[:id])
     if @item.update(item_params) && @item.save
       @item.image = "https://www.intemposoftware.com/uploads/blog/Blog_inventory_control.jpg" if item_params[:image] == ""
       @item.save
@@ -68,7 +68,7 @@ class Merchant::ItemsController < Merchant::BaseController
   end
 
   def destroy
-    item = Item.find(params[:item_id])
+    item = Item.find(params[:id])
     flash[:notice] = "#{item.name} has been deleted"
     item.destroy
     redirect_to "/merchant/#{item.merchant.id}/items"
