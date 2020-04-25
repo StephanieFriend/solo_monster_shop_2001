@@ -3,9 +3,11 @@ Rails.application.routes.draw do
   root 'welcome#index'
 
   resources :merchants, except: [:edit, :update, :delete]
-
-  get "/items", to: "items#index"
-  get "/items/:id", to: "items#show"
+  resources :items, except: [:edit, :update, :delete]
+  resources :reviews
+  resources :orders
+  # get "/items", to: "items#index"
+  # get "/items/:id", to: "items#show"
   get "/merchants/:merchant_id/items", to: "items#index"
   get "/merchants/:merchant_id/items/new", to: "items#new"
   post "/merchants/:merchant_id/items", to: "items#create"
@@ -13,9 +15,9 @@ Rails.application.routes.draw do
   get "/items/:item_id/reviews/new", to: "reviews#new"
   post "/items/:item_id/reviews", to: "reviews#create"
 
-  get "/reviews/:id/edit", to: "reviews#edit"
-  patch "/reviews/:id", to: "reviews#update"
-  delete "/reviews/:id", to: "reviews#destroy"
+  # get "/reviews/:id/edit", to: "reviews#edit"
+  # patch "/reviews/:id", to: "reviews#update"
+  # delete "/reviews/:id", to: "reviews#destroy"
 
   post "/cart/:item_id", to: "cart#add_item"
   get "/cart", to: "cart#show"
@@ -24,11 +26,11 @@ Rails.application.routes.draw do
   patch "/cart/:item_id/increment", to: "cart#increment"
   patch "/cart/:item_id/decrement", to: "cart#decrement"
 
-  get "/orders/new", to: "orders#new"
+  # get "/orders/new", to: "orders#new"
   get "/profile/orders/:id", to: "orders#show"
-  patch "/orders/:id", to: "orders#update"
-  post "/orders", to: "orders#create"
-  delete "/orders/:id", to: "orders#destroy"
+  # patch "/orders/:id", to: "orders#update"
+  # post "/orders", to: "orders#create"
+  # delete "/orders/:id", to: "orders#destroy"
 
   get '/register', to: "users#new"
   post '/register', to: "users#create"
@@ -44,23 +46,25 @@ Rails.application.routes.draw do
   resource :password, only: [:edit, :update]
 
   namespace :merchant do
-    get '/merchants/:id/edit', to: 'merchants#edit'
-    patch '/merchants/:id', to: 'merchants#update'
-    delete '/merchants/:id', to: 'merchants#destroy'
+    resources :merchants
+    resources :items
+    # get '/merchants/:id/edit', to: 'merchants#edit'
+    # patch '/merchants/:id', to: 'merchants#update'
+    # delete '/merchants/:id', to: 'merchants#destroy'
 
     get '/', to: "dashboard#index"
     get '/orders/:id', to: "dashboard#show"
 
     get '/:merchant_id/items', to: "items#index"
-    get '/items/new', to: "items#new"
-    get '/items/:item_id/edit', to: "items#edit"
-    post '/items', to: "items#create"
+    # get '/items/new', to: "items#new"
+    # get '/items/:id/edit', to: "items#edit"
+    # post '/items', to: "items#create"
 
     patch '/items/:item_id/status', to: "items#status"
     patch '/items/:order_id/:item_id/fulfillment', to: "items#fulfill"
-    patch '/items/:item_id', to: "items#update"
+    # patch '/items/:id', to: "items#update"
 
-    delete '/items/:item_id', to: "items#destroy"
+    # delete '/items/:id', to: "items#destroy"
 
     get '/:merchant_id/bulk_discounts', to: 'bulk_discounts#index'
     get '/:merchant_id/bulk_discounts/new', to: 'bulk_discounts#new'

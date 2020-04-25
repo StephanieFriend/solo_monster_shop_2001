@@ -22,34 +22,28 @@ class Cart
     item_quantity
   end
 
-  def discount_item
-    discounts = []
-    items.each do |item, quantity|
-      BulkDiscount.all.each do |discount|
-        if discount.merchant_id == item.merchant_id
-          discounts << discount
-        end
-      end
-    end
-    discounts
+  def discount_item(item)
+    BulkDiscount.joins(:merchant).where("bulk_discounts.merchant_id =?", item.merchant_id).where("bulk_discounts.quantity <=?", items[item]).order(quantity: :DESC).order(percentage: :DESC).first
   end
 
-  def subtotal(item)
-    @contents.each do |item_id, quantity|
-      discount_item.each do |discount|
-        if item_id == item.id.to_s && discount.merchant_id == item.merchant_id
-          if discount.quantity <= quantity
-            max_discount = discount_item.select {|dis| dis.quantity <= quantity}.max_by {|dis| dis.quantity}
-            new_discounted_price = (max_discount.percentage.to_f / 100) * (item.price * @contents[item.id.to_s])
-            new_subtotal = (item.price * @contents[item.id.to_s]) - new_discounted_price
-            return new_subtotal
-          end
-        end
-      end
-    end
+  def total_calculation(item)
     item.price * @contents[item.id.to_s]
   end
 
+  def calc_percent(discount, item)
+    discounted_price = (discount.percentage.to_f / 100) * total_calculation(item)
+    new_subtotal = total_calculation(item) - discounted_price
+    return new_subtotal
+  end
+
+  def subtotal(item)
+    if !discount_item(item).nil? && @contents.keys.include?(item.id.to_s) && discount_item(item).merchant_id == item.merchant_id
+      calc_percent(discount_item(item), item)
+    else
+      total_calculation(item)
+    end
+  end
+  4
   def total
     @contents.sum do |item_id,quantity|
       Item.find(item_id).price * quantity
